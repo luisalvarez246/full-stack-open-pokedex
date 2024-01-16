@@ -10,6 +10,7 @@ primary_region = "mad"
 
 [deploy]
   release_command = "npm run build"
+  strategy = "bluegreen"
 
 [http_service]
   internal_port = 8080
