@@ -10,6 +10,10 @@ app.get('/version', (req, res) => {
   res.send('SPECIAL BUMB CANON!!')
 })
 
+app.get('/health', (req, res) => {
+  res.status(200).send('ok')
+})
+
 app.listen(PORT, () => {
   console.log('server started on port 8080')
 })
