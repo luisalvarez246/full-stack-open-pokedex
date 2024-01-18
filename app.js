@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080
 app.use(express.static('dist'))
 
 app.get('/version', (req, res) => {
-  res.send('SPECIAL BUMB CANON!! tag run_dry test')
+  res.send('SPECIAL BUMB CANON!! tag run_dry test2')
 })
 
 app.get('/health', (req, res) => {
