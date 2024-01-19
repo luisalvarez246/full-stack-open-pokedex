@@ -46,7 +46,5 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.67.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DRY_RUN: true
-            
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
 
