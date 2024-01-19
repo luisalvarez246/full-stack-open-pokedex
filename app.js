@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080
 app.use(express.static('dist'))
 
 app.get('/version', (req, res) => {
-  res.send('SPECIAL BUMB CANON!! skipping deployment and tagging')
+  res.send('SPECIAL BUMB CANON!! hash > version')
 })
 
 app.get('/health', (req, res) => {
