@@ -45,7 +45,7 @@ jobs:
           fi
         env: 
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - name: Deployment Job Successful
+      - name: Slack Deployment Job Successful Message
         if: ${{ success() && github.event_name == 'push' }}
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
@@ -63,7 +63,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "${{ env.APP_URL }}"
+                        "text": "to ${{ env.APP_URL }}"
                       }
                     }
                   ]
