@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080
 app.use(express.static('dist'))
 
 app.get('/version', (req, res) => {
-  res.send('SPECIAL BUMB CANON!! try slack notifications')
+  res.send('SPECIAL BUMB CANON!! format slack notifications')
 })
 
 app.get('/health', (req, res) => {
