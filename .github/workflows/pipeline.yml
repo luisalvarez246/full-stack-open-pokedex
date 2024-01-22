@@ -63,7 +63,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "to ${{ env.APP_URL }}"
+                        "text": "to <${{ env.APP_URL }}|${{ env.APP_URL }}>"
                       }
                     }
                   ]
