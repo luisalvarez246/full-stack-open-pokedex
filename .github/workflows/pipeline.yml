@@ -34,9 +34,38 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly.io
         if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
-        run: flyctl deploy --remote-only
+        run: |
+          flyctl deploy --remote-only
+          APP_URL=$(flyctl status --json | jq -r '.Hostname')
         env: 
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Deployment Job Successful
+        if: ${{ success() && github.event_name == 'push' }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: C06EH6T222K
+          # slack-message: "A new version of Pokedex deployed: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+          payload: |
+            {
+              "text": "A new version of Pokedex deployed",
+              "attachments": [
+                {
+                  "color": "good",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "> $APP_URL"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
