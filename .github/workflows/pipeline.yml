@@ -37,7 +37,8 @@ jobs:
         run: |
           flyctl deploy --remote-only
           if APP_URL=$(flyctl status --json | jq -r '.Hostname'); then
-            echo "APP_URL=\"$APP_URL\"" >> "$GITHUB_ENV"
+            echo "APP_URL=${APP_URL}" >> "$GITHUB_ENV"
+            echo "${APP_URL}"
           else
             echo "Failed to get APP_URL"
             exit 1
