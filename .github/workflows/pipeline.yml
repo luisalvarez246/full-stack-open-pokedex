@@ -63,7 +63,14 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "to https://${{ env.APP_URL }}"
+                        "text": "to https://${{ env.APP_URL }} by ${{ github.actor }}"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "*Severity: Informational* &emp; *Time: ${{ github.event.head_commit.timestamp }}*"
                       }
                     }
                   ]
