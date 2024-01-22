@@ -15,5 +15,7 @@ app.get('/health', (req, res) => {
 })
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-undef
+  this_causes_error
   console.log('server started on port 8080')
 })

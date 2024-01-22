@@ -23,6 +23,40 @@ jobs:
         run: npm run eslint
       - name: Build App
         run: npm run build
+      - name: Slack Broken Build Message
+        if: ${{ failure() }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: C06EH6T222K
+          payload: |
+            {
+              "text": "Build failed",
+              "attachments": [
+                {
+                  "color": "ff0000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "commit\n ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} by ${{ github.actor}} broke the build :'("
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "*Severity: Error* &emsp; *Time: ${{ github.event.head_commit.timestamp }}*"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
       - name: Test App
         run: npm run test
       - name: e2e tests
@@ -51,7 +85,6 @@ jobs:
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: C06EH6T222K
-          # slack-message: "A new version of Pokedex deployed: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
           payload: >
             {
               "text": "A new version of Pokedex deployed",
@@ -70,7 +103,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "*Severity: Informational* &emp; *Time: ${{ github.event.head_commit.timestamp }}*"
+                        "text": "*Severity: Informational* &emsp; *Time: ${{ github.event.head_commit.timestamp }}*"
                       }
                     }
                   ]
