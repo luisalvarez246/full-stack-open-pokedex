@@ -4,12 +4,49 @@ on:
   push:
     branches: 
       - main
+  schedule:
+    - cron: '*/5 * * * *'
 
 jobs:
-  ping:
+  ping_health_check:
     runs-on: ubuntu-20.04
     steps:
+      - name: Set Timestamp
+        run: |
+          echo "FAILED_BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
       - name: URL Health Check
         uses: Jtalk/url-health-check-action@v3.2
         with:
           url: https://pokedex246.fly.dev/ping
+      - name: Slack App Down Message
+        if: ${{ failure() }}
+        id: slack_web_down
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: C06EH6T222K
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "ff0000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "App Down :("
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "*Severity: Server Down*\t*Time: ${{ env.FAILED_BUILD_TIMESTAMP }}*"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
