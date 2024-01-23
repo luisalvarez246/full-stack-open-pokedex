@@ -6,7 +6,6 @@ on:
       - main
   schedule:
     - cron: '*/5 * * * *'
-
 jobs:
   ping_health_check:
     runs-on: ubuntu-20.04
