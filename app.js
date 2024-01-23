@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-let	counter = 1
+let	counter = 0
 
 const PORT = process.env.PORT || 8080
 
